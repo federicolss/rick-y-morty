@@ -1,9 +1,32 @@
 import style from './Card.module.css'
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react"
+import {REMOVE_FAV, ADD_FAV } from "../../redux/aciones/tipy_acciones"
+import {connect } from 'react-redux';
+import { addFav, removeFav } from '../../redux/aciones/accions';
 
-export default function Card(props) {
-  const {id,name,gender,species,image,status,origin,onClose} =  props
-   return (
+function Card(props) {
+  const {id,name,gender,species,image,status,origin,onClose,addFav,removeFav,  myFavorites} =  props
+  
+  const[isfav,setIsFav] = useState(false)
+
+  function handlefavorite(){
+   if(isfav){
+      setIsFav(false);
+      removeFav(id)
+   }else{
+      setIsFav(true);
+      addFav (props)  
+   }
+  }
+  useEffect(()=>{
+   myFavorites.forEach((fav)=>{
+      if(fav.id === props.id){
+         setIsFav(true)
+      }
+   })
+  },[myFavorites])
+  return (
       <div className={style.container}>
          <div className={style.containerCard}>
             <div className={style.front}>
@@ -15,6 +38,11 @@ export default function Card(props) {
             </div>
 
             <div className={style.back}>
+               {isfav ?(
+                  <button onClick={handlefavorite}>a</button>
+               ):(
+                  <button onClick={handlefavorite}>b</button>
+               )}
                <button 
                 className={style.btn}
                 onClick={()=>onClose(id)}
@@ -27,7 +55,7 @@ export default function Card(props) {
                
                <h2>{species}</h2>
                <h2>{gender}</h2>
-               <h2>{status}</h2>
+               <h2>{status}</h2> 
                <h2>{origin.name}</h2>
 
 
@@ -46,9 +74,15 @@ export default function Card(props) {
       // </div>
    );
 }
-// **name**: nombre.
-// -  **status**: status.
-// -  **species**: especie.
-// -  **gender**: género.
-// -  **origin**: origen (ten en cuenta que el nombre del origen viene dentro de otra propiedad llamada **`name`**).
-// -  **image**: imagen.
+function mapStateToProp(state){
+   return {
+      myFavorites :state.myFavorites
+   }
+}
+function mapDispachToProp(dispatch) {
+   return {
+     addFav: (ch) => dispatch(addFav(ch)),
+     removeFav: (id) => dispatch(removeFav(id)),
+   };
+ }
+export default connect(mapStateToProp,mapDispachToProp)(Card)

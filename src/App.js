@@ -3,15 +3,17 @@ import './App.css';
 import Cards from './components/Cards/Cards.jsx';
 // import SearchBar from './components/SeacchBar/SearchBar.jsx';
 // import characters from './data.js';
-import Nav from './components/Nav';
+import Nav from './components/Nav.jsx';
 import { useState,useEffect } from 'react';
 import axios from 'axios'
 import {Routes,Route,useLocation} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import Detail from './components/Detail/Detail.jsx';
-import Abault from './components/Abault/Abault';
+import Abault from './components/Abault/Abault.jsx';
 import Formulario   from './components/Forn/Formulario.jsx';
 import { navigate } from 'react-router-dom'
+import Favorite from "./components/favorite/Favorite.jsx"
+
 
 // function App() {
 //    function onSearch(characterID){
@@ -56,7 +58,7 @@ function App(){
          setAccess(true)
          navigate('/home')
       }   
-
+return console.log("error de contraseña o mail ")
    }
    
 useEffect(()=>{
@@ -84,8 +86,7 @@ useEffect(()=>{
            onClose = {onClose}/>}/>
         
           <Route path='/abault' element={< Abault/>}/>
-
-          
+            <Route path='/favorite' element = {<Favorite onClose={onClose}/>}></Route>
           <Route path='/detail/:id' element={<Detail/>}/>
         
          

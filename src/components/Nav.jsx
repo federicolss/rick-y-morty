@@ -13,7 +13,9 @@ import { Link } from 'react-router-dom'
         <Link to ='/home'>
             <button>Home</button>
             </Link>
-     
+        <Link to ='/favorite'>
+            <button>Favorite</button>
+            </Link>
      </>
     )
 }
